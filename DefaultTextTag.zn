@@ -13,7 +13,7 @@ library DefaultTextTag {
         function DefaultTextTag(integer index, real x, real y, string text) -> texttag {
             tt = CreateTextTag();
 
-            SetTextTagText(tt, text, setting[index][6]+(text * setting[index][7]));
+            SetTextTagText(tt, text, setting[index][6]+(S2R(text) * setting[index][7]));
             SetTextTagPos(tt, x + setting[index][4], y, 0);
             SetTextTagColor(tt, color[index][0], color[index][1], color[index][2], color[index][3]);
             SetTextTagVelocity(tt, setting[index][0] + GetRandomReal(setting[index][5]*-1,setting[index][5]), setting[index][1]);

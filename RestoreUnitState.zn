@@ -10,7 +10,7 @@ library RestoreUnitState requires DefaultTextTag {
         function RestoreUnit(real restore, unit target, integer index){
             local integer nrestore = R2I((GetUnitState(target,UnitMaxState[index])- GetUnitState(target,UnitState[index]))); //недостающее хп/мп
             if (restore>nrestore) restore = nrestore;
-            if UnitAlive(target) {
+            if (UnitAlive(target)) {
                 DefaultTextTag(TextTagHeal+index, GetUnitX(target), GetUnitY(target), R2S(heal));
                 SetUnitState(target, UnitState[index],GetUnitState(target,UnitState[index])+ I2R(heal));
             }

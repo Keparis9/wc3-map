@@ -32,7 +32,7 @@ library DefaultTextTag {
 
     constant real fontSize = .024;
     integer color[16][4];
-    real setting[16][6];
+    real setting[16][7];
     texttag tt;
 
     function addColor(integer index, integer c0, integer c1, integer c2, integer c3) {

@@ -1,0 +1,31 @@
+library RestoreUnitState requires DefaultTextTag {    
+    public {
+        //real HealTotal
+        //real ManaRestoreTotal
+        constant integer Heal = 0;
+        constant integer ManaRestore = 1;
+
+
+
+        function RestoreUnit(real restore, unit target, integer index){
+            local integer nrestore = R2I((GetUnitState(target,UnitMaxState[index])- GetUnitState(target,UnitState[index]))); //недостающее хп/мп
+            if (restore>nrestore) restore = nrestore;
+            if UnitAlive(target) {
+                DefaultTextTag(TextTagHeal+index, GetUnitX(target), GetUnitY(target), R2S(heal));
+                SetUnitState(target, UnitState[index],GetUnitState(target,UnitState[index])+ I2R(heal));
+            }
+        }
+
+    }
+    
+    unitstate UnitMaxState[1];
+    unitstate UnitState[1];
+
+    function onInit() {
+        unitstate UnitMaxState[Heal] = UNIT_STATE_MAX_LIFE;
+        unitstate UnitState[Heal] = UNIT_STATE_LIFE;
+
+        unitstate UnitMaxState[ManaRestore] = UNIT_STATE_MAX_MANA;
+        unitstate UnitState[ManaRestore] = UNIT_STATE_MANA;
+    }
+}

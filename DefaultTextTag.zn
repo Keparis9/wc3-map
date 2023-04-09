@@ -1,3 +1,17 @@
+/*
+DefaultTextTag(integer index, real x, real y, string text) -> texttag
+index       тип текстага    0 : Награда золотом
+                            1 : Наград деревом
+                            2 : Промах             
+                            3 : Критический удар             
+                            4 : Магический огонь
+                            5 : Отравленный нож  
+                            6 : Лечение
+                            7 : Мана восстановление
+target      цель
+text        текст
+
+*/
 library DefaultTextTag {    
     public {
         constant integer TextTagGoldBounty = 0;
@@ -27,6 +41,31 @@ library DefaultTextTag {
 
         function DefaultTextTagWidget(integer index, widget target, string text) -> texttag {
             return DefaultTextTag(index, GetWidgetX(target), GetWidgetY(target), text);
+        }
+
+        function TTGold(widget target, string text) {
+            DefaultTextTag(TextTagGoldBounty, GetWidgetX(target), GetWidgetY(target), text);
+        }
+        function TTLumber(widget target, string text) {
+            DefaultTextTag(TextTagLumberBounty, GetWidgetX(target), GetWidgetY(target), text);
+        }
+        function TTMiss(widget target, string text) {
+            DefaultTextTag(TextTagMiss, GetWidgetX(target), GetWidgetY(target), text);
+        }
+        function TTCrit(widget target, string text) {
+            DefaultTextTag(TextTagCriticalStrike, GetWidgetX(target), GetWidgetY(target), text);
+        }
+        function TTBurn(widget target, string text) {
+            DefaultTextTag(TextTagManaBurn, GetWidgetX(target), GetWidgetY(target), text);
+        }
+        function TTShadowStrike(widget target, string text) {
+            DefaultTextTag(TextTagShadowStrike, GetWidgetX(target), GetWidgetY(target), text);
+        }
+        function TTHeal(widget target, string text) {
+            DefaultTextTag(TextTagHeal, GetWidgetX(target), GetWidgetY(target), text);
+        }
+        function TTMana(widget target, string text) {
+            DefaultTextTag(TextTagManaRestore, GetWidgetX(target), GetWidgetY(target), text);
         }
     }
 
@@ -63,7 +102,7 @@ library DefaultTextTag {
         addSetting(TextTagLumberBounty, 0, .03, 2, 3, - 16, 0, .024, 0);
     
         addColor(TextTagMiss, 255, 0, 0, 255);
-        addSetting(TextTagMiss, 0, .03, 1, 3, 0, .024, 0);
+        addSetting(TextTagMiss, 0, .03, 1, 3, 0, .024, 0, 0);
 
         addColor(TextTagCriticalStrike, 255, 0, 0, 255);
         addSetting(TextTagCriticalStrike, 0, .04, 2, 5, 0, 0, .024, 0);        

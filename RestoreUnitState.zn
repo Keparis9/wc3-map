@@ -1,3 +1,11 @@
+/*
+HealUnit(unit target, real heal)
+ManaUnit(unit target, real mana)
+
+target      цель
+heal/mana   Сколько восстановить здоровья/маны
+
+*/
 library RestoreUnitState requires DefaultTextTag {    
     public {
         //real HealTotal
@@ -5,27 +13,33 @@ library RestoreUnitState requires DefaultTextTag {
         constant integer Heal = 0;
         constant integer ManaRestore = 1;
 
-
-
-        function RestoreUnit(real restore, unit target, integer index){
-            local integer nrestore = R2I((GetUnitState(target,UnitMaxState[index])- GetUnitState(target,UnitState[index]))); //недостающее хп/мп
+        function RestoreUnitState(real restore, unit target, integer index){
+            real nrestore = (GetUnitState(target,UnitMaxState[index])- GetUnitState(target,UnitState[index])); //недостающее хп/мп
             if (restore>nrestore) restore = nrestore;
-            if (UnitAlive(target)) {
-                DefaultTextTag(TextTagHeal+index, GetUnitX(target), GetUnitY(target), R2S(heal));
-                SetUnitState(target, UnitState[index],GetUnitState(target,UnitState[index])+ I2R(heal));
+            if (UnitAlive(target) && restore != 0) {
+                SetUnitState(target, UnitState[index],GetUnitState(target,UnitState[index])+ restore);
+                if (index == 0) TTHeal(target, R2S(restore));
+                if (index == 1) TTMana(target, R2S(restore));
             }
+        }
+
+        function HealUnit(unit target, real heal) {
+            RestoreUnitState(heal,target,Heal);
+        }
+        function ManaUnit(unit target, real mana) {
+            RestoreUnitState(mana,target,ManaRestore);
         }
 
     }
     
-    unitstate UnitMaxState[1];
-    unitstate UnitState[1];
+    unitstate UnitMaxState[2];
+    unitstate UnitState[2];
 
     function onInit() {
-        unitstate UnitMaxState[Heal] = UNIT_STATE_MAX_LIFE;
-        unitstate UnitState[Heal] = UNIT_STATE_LIFE;
+        UnitMaxState[Heal] = UNIT_STATE_MAX_LIFE;
+        UnitState[Heal] = UNIT_STATE_LIFE;
 
-        unitstate UnitMaxState[ManaRestore] = UNIT_STATE_MAX_MANA;
-        unitstate UnitState[ManaRestore] = UNIT_STATE_MANA;
+        UnitMaxState[ManaRestore] = UNIT_STATE_MAX_MANA;
+        UnitState[ManaRestore] = UNIT_STATE_MANA;
     }
 }
